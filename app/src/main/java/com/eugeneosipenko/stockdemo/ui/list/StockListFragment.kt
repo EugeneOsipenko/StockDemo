@@ -4,41 +4,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.eugeneosipenko.stockdemo.databinding.FragmentDashboardBinding
+import androidx.fragment.app.viewModels
+import com.eugeneosipenko.stockdemo.databinding.FragmentListBinding
 
 class StockListFragment : Fragment() {
 
-    private lateinit var stockListViewModel: StockListViewModel
-    private var _binding: FragmentDashboardBinding? = null
+    private val viewModel: StockListViewModel by viewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentListBinding
+    private lateinit var adapter: StockListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        stockListViewModel =
-            ViewModelProvider(this).get(StockListViewModel::class.java)
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        stockListViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+    ): View {
+        binding = FragmentListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        adapter = StockListAdapter()
     }
 }
