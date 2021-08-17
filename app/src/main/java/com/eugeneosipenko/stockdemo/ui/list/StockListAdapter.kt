@@ -1,7 +1,7 @@
 package com.eugeneosipenko.stockdemo.ui.list
 
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,7 +29,7 @@ class StockListAdapter(
             exchange.text = item.exchange
             symbol.text = item.symbol
 
-            change.visibility = View.INVISIBLE
+            price.setTextColor(Color.BLACK)
             image.setImageDrawable(null)
             image.clear()
 
@@ -42,8 +42,7 @@ class StockListAdapter(
                     R.color.green
                 }
 
-                change.visibility = View.VISIBLE
-                change.setBackgroundResource(changeColor)
+                price.setTextColor(price.context.resources.getColor(changeColor))
             }
         }
 

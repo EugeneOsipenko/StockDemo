@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/bookmark_company.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/drawable/ic_star.xml" value="0.2712962962962963" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.27863247863247864" />
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.34444444444444444" />
         <entry key="app/src/main/res/layout/item_company_list.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.29156118143459914" />
