@@ -2,21 +2,58 @@ package com.eugeneosipenko.stockdemo.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.eugeneosipenko.stockdemo.LoadCompanyProfileUseCase
 import com.eugeneosipenko.stockdemo.model.Company
 import com.eugeneosipenko.stockdemo.util.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+
+private const val DEBOUNCE_TIME = 300L
+
+interface CompanyProfileRequestHandler {
+    fun loadCompanyProfile(symbol: String)
+}
 
 @HiltViewModel
 class StockListViewModel @Inject constructor(
-    private val loadStockListUseCase: LoadStockListUseCase
-) : ViewModel() {
+    loadStockListUseCase: LoadStockListUseCase,
+    private val loadCompanyProfileUseCase: LoadCompanyProfileUseCase
+) : ViewModel(), CompanyProfileRequestHandler {
 
-    val companies: StateFlow<List<Company>> = flow {
-        val companies = loadStockListUseCase(Unit).getOrNull() ?: emptyList()
-        emit(companies)
-    }.stateIn(viewModelScope, WhileViewSubscribed, initialValue = emptyList())
+    private val allCompanies = mutableMapOf<String, Company>()
+    private val companiesFlow = MutableStateFlow<List<Company>>(emptyList())
+
+    val companies: Flow<List<Company>> = companiesFlow
+        .onStart { emitAll(initialLoad) }
+        .filter { it.isNotEmpty() }
+        .stateIn(viewModelScope, WhileViewSubscribed, emptyList())
+        .debounce(DEBOUNCE_TIME)
+
+    private val initialLoad: Flow<List<Company>> = flow {
+        loadStockListUseCase(Unit)
+            .getOrElse { emptyList() }
+            .apply { emit(this) }
+            .associateByTo(allCompanies) { it.symbol }
+    }
+
+    override fun loadCompanyProfile(symbol: String) {
+        if (allCompanies[symbol]?.profile != null) return
+
+        viewModelScope.launch {
+            val companyProfile = loadCompanyProfileUseCase(symbol).getOrNull() ?: return@launch
+            val company = allCompanies.getValue(companyProfile.symbol)
+
+            allCompanies[companyProfile.symbol] = company.copy(profile = companyProfile)
+            companiesFlow.emit(allCompanies.values.toList())
+        }
+    }
 }
