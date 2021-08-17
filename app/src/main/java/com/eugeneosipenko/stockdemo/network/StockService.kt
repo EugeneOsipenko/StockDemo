@@ -1,12 +1,10 @@
-package com.eugeneosipenko.stockdemo
+package com.eugeneosipenko.stockdemo.network
 
 import com.eugeneosipenko.stockdemo.model.Company
-import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 
 interface StockService {
 
-    @GET("/v3/stock/list")
+    @GET("api/v3/stock/list")
     suspend fun loadCompaniesList(): List<Company>
 }

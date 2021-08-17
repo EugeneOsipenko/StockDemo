@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.eugeneosipenko.stockdemo.databinding.FragmentListBinding
+import com.eugeneosipenko.stockdemo.util.launchAndRepeatWithViewLifecycle
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class StockListFragment : Fragment() {
 
     private val viewModel: StockListViewModel by viewModels()
@@ -28,5 +33,12 @@ class StockListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = StockListAdapter()
+        binding.recyclerView.adapter = adapter
+
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                viewModel.companies.collect { adapter.submitList(it) }
+            }
+        }
     }
 }

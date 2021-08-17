@@ -1,3 +1,5 @@
+package com.eugeneosipenko.stockdemo.domain
+
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

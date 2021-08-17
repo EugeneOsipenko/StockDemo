@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_companies"
         android:name="com.eugeneosipenko.stockdemo.ui.list.StockListFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_companies"
         tools:layout="@layout/fragment_list" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.eugeneosipenko.stockdemo.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:id="@+id/navigation_favourites"
+        android:name="com.eugeneosipenko.stockdemo.ui.notifications.FavouritesFragment"
+        android:label="@string/title_favourits"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

@@ -16,7 +16,7 @@ class StockListViewModel @Inject constructor(
 ) : ViewModel() {
 
     val companies: StateFlow<List<Company>> = flow {
-        val agendaData = loadStockListUseCase(Unit).getOrNull() ?: emptyList()
-        emit(agendaData)
+        val companies = loadStockListUseCase(Unit).getOrNull() ?: emptyList()
+        emit(companies)
     }.stateIn(viewModelScope, WhileViewSubscribed, initialValue = emptyList())
 }
