@@ -1,6 +1,5 @@
-package com.eugeneosipenko.stockdemo.ui.list
+package com.eugeneosipenko.stockdemo.domain
 
-import com.eugeneosipenko.stockdemo.domain.UseCase
 import com.eugeneosipenko.stockdemo.di.IoDispatcher
 import com.eugeneosipenko.stockdemo.model.Company
 import javax.inject.Inject

@@ -5,9 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.eugeneosipenko.stockdemo.R
 import com.eugeneosipenko.stockdemo.databinding.FragmentListBinding
+import com.eugeneosipenko.stockdemo.ui.details.DetailsFragmentArgs
 import com.eugeneosipenko.stockdemo.util.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -39,6 +43,13 @@ class StockListFragment : Fragment() {
         launchAndRepeatWithViewLifecycle {
             launch {
                 viewModel.companies.collect { adapter.submitList(it) }
+            }
+
+            launch {
+                viewModel.openCompanyDetails.collect { company ->
+                    val action = StockListFragmentDirections.toDetails(company)
+                    findNavController().navigate(action)
+                }
             }
         }
     }

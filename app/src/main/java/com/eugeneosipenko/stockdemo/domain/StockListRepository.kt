@@ -1,4 +1,4 @@
-package com.eugeneosipenko.stockdemo.ui.list
+package com.eugeneosipenko.stockdemo.domain
 
 import com.eugeneosipenko.stockdemo.network.StockService
 import com.eugeneosipenko.stockdemo.model.Company

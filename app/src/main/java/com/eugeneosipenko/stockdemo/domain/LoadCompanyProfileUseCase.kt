@@ -1,9 +1,7 @@
-package com.eugeneosipenko.stockdemo
+package com.eugeneosipenko.stockdemo.domain
 
 import com.eugeneosipenko.stockdemo.di.IoDispatcher
-import com.eugeneosipenko.stockdemo.domain.UseCase
 import com.eugeneosipenko.stockdemo.model.CompanyProfile
-import com.eugeneosipenko.stockdemo.ui.list.StockListRepository
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 

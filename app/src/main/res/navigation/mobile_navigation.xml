@@ -9,11 +9,25 @@
         android:id="@+id/navigation_companies"
         android:name="com.eugeneosipenko.stockdemo.ui.list.StockListFragment"
         android:label="@string/title_companies"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_details"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favourites"
         android:name="com.eugeneosipenko.stockdemo.ui.favourits.FavouritesFragment"
         android:label="@string/title_favourits"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_details"
+        android:name="com.eugeneosipenko.stockdemo.ui.details.DetailsFragment"
+        android:label="@string/title_details"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="company"
+            app:argType="com.eugeneosipenko.stockdemo.model.Company"/>
+    </fragment>
 </navigation>
